@@ -79,11 +79,6 @@ class Weather:
 
         df = pd.DataFrame(weather_dicts)
 
-        # Add day of week to DataFrame + Set Index as date
-        df['date'] = pd.to_datetime(df['date'])
-        df['day_of_week'] = df['date'].dt.weekday
-        df['month'] = df['date'].dt.month
-        
         df.set_index('date', inplace=True)
         
         # Clean Up NA Values with Forward Fill

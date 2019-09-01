@@ -13,9 +13,3 @@ class Venue:
     
     def weather(self):
         return Weather(self.lat, self.long).weather_df(start_date, end_date)
-
-jupiter = Venue('Jupiter Disco', 'Brooklyn, NY')
-print(jupiter.name)
-print(jupiter.location)
-print(jupiter.lat, ',', jupiter.long)
-print(jupiter.weather())
