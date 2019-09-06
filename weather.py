@@ -42,7 +42,7 @@ class Weather:
             
         return requests.get(url).json()
 
-    def get_daily_weather(self, day):
+    def daily_weather(self, day):
         r = self.make_api_call(day)
 
         # Convert Time Return to Datetime from Epoch
@@ -74,11 +74,10 @@ class Weather:
 
         weather_dicts = []
         for day in list_of_days:
-            daily_weather = self.get_daily_weather(day)
+            daily_weather = self.daily_weather(day)
             weather_dicts.append(daily_weather)
 
         df = pd.DataFrame(weather_dicts)
-
         df.set_index('date', inplace=True)
         
         # Clean Up NA Values with Forward Fill
