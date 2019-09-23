@@ -1,7 +1,8 @@
 import requests
 import json
+import re
 
-from config import yelp_api_key
+from config import yelp_api_key, google_api_key
 
 class Location:
 
@@ -60,7 +61,52 @@ class Location:
         r = self.validate_business()
         return r['rating']
 
+    def yelp_review_count(self):
+        r = self.validate_business()
+        return r['review_count']
+
+    def google_places_id(self):
+
+        base_url = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?'
+
+        pattern = re.compile(r'\s+')
+        location_text = re.sub(pattern, '', self.location).replace(',', '%20')
+
+        url = (base_url + 'input=' 
+                    + self.name.replace(' ', '%20') + '%20'
+                    + location_text + '%20' 
+                    + '&inputtype=textquery&key=' + google_api_key)
+
+        r = requests.get(url)
+        response = r.json()
         
+        return response['candidates'][0]['place_id']
+
+    def google_rating(self):
+
+        place_id = self.google_places_id()
+
+        base_url = 'https://maps.googleapis.com/maps/api/place/details/json?'
+
+        url = (base_url + 'place_id=' + place_id + '&fields=rating' + '&key=' + google_api_key)
+
+        r = requests.get(url)
+        response = r.json()
+
+        return response['result']
+
+    def google_reviews(self):
+
+        place_id = self.google_places_id()
+
+        base_url = 'https://maps.googleapis.com/maps/api/place/details/json?'
+
+        url = (base_url + 'place_id=' + place_id + '&fields=review' + '&key=' + google_api_key)
+
+        r = requests.get(url)
+        response = r.json()
+
+        return response['result']
 
 
 

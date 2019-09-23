@@ -9,11 +9,13 @@ class Venue:
         self.loc = Location(name, location)
     
     def weather_dataframe(self, start_date, end_date):
-        lat, long = venue.loc.lat_long()
+        lat, long = self.loc.lat_long()
         return Weather(lat, long).weather_df(start_date, end_date)
 
     def daily_weather(self, day):
-        return Weather(self.lat, self.long).daily_weather(day)
+        lat, long = self.loc.lat_long()
+        return Weather(lat, long).daily_weather(day)
 
 venue = Venue('Jupiter Disco', 'Brooklyn, NY')
-print(venue.loc.yelp_rating())
+
+print(venue.loc.yelp_review_count())
