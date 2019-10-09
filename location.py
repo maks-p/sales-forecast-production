@@ -108,7 +108,18 @@ class Location:
 
         return response['result']
 
+    def google_lat_long(self):
 
+        place_id = self.google_places_id()
+
+        base_url = 'https://maps.googleapis.com/maps/api/place/details/json?'
+
+        url = (base_url + 'place_id=' + place_id + '&fields=geometry' + '&key=' + google_api_key)
+
+        r = requests.get(url)
+        response = r.json()
+
+        return response['result']['geometry']['location']
 
 
 

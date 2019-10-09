@@ -17,5 +17,5 @@ class Venue:
         return Weather(lat, long).daily_weather(day)
 
 venue = Venue('Jupiter Disco', 'Brooklyn, NY')
+print(venue.loc.google_lat_long())
 
-print(venue.loc.yelp_review_count())
